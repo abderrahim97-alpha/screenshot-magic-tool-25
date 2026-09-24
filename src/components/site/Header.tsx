@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { Menu, Phone, X } from "lucide-react";
+import { Menu, MessageCircle, Phone, X } from "lucide-react";
 import { useState } from "react";
 
 import logo from "@/assets/logo.png.asset.json";
@@ -55,7 +55,7 @@ export function Header() {
             onClick={() => setOpen((v) => !v)}
             className="inline-flex size-11 items-center justify-center rounded-full text-primary transition-colors hover:bg-accent lg:hidden"
           >
-            {open ? <Menu className="size-6" /> : <Menu className="size-6" />}
+            {open ? <X className="size-6" /> : <Menu className="size-6" />}
           </button>
         </div>
       </div>
@@ -112,8 +112,7 @@ export function FloatingContact() {
       aria-label="Nous écrire sur WhatsApp"
       className="fixed bottom-24 right-4 z-40 inline-flex size-13 animate-in fade-in zoom-in items-center justify-center rounded-full bg-mint text-mint-foreground shadow-card transition-transform hover:scale-105 sm:bottom-6"
     >
-      <Phone className="size-5" />
-      <X className="hidden" />
+      <MessageCircle className="size-6" />
     </a>
   );
 }
