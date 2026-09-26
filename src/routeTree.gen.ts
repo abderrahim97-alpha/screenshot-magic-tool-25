@@ -10,33 +10,111 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as BlogRouteImport } from './routes/blog'
+import { Route as CommentCaMarcheRouteImport } from './routes/comment-ca-marche'
+import { Route as ContactRouteImport } from './routes/contact'
+import { Route as ServicesRouteImport } from './routes/services'
+import { Route as BlogIndexRouteImport } from './routes/blog.index'
+import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BlogRoute = BlogRouteImport.update({
+  id: '/blog',
+  path: '/blog',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CommentCaMarcheRoute = CommentCaMarcheRouteImport.update({
+  id: '/comment-ca-marche',
+  path: '/comment-ca-marche',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ServicesRoute = ServicesRouteImport.update({
+  id: '/services',
+  path: '/services',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BlogIndexRoute = BlogIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => BlogRoute,
+} as any)
+const BlogSlugRoute = BlogSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => BlogRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/blog': typeof BlogRouteWithChildren
+  '/comment-ca-marche': typeof CommentCaMarcheRoute
+  '/contact': typeof ContactRoute
+  '/services': typeof ServicesRoute
+  '/blog/$slug': typeof BlogSlugRoute
+  '/blog/': typeof BlogIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/comment-ca-marche': typeof CommentCaMarcheRoute
+  '/contact': typeof ContactRoute
+  '/services': typeof ServicesRoute
+  '/blog/$slug': typeof BlogSlugRoute
+  '/blog': typeof BlogIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/blog': typeof BlogRouteWithChildren
+  '/comment-ca-marche': typeof CommentCaMarcheRoute
+  '/contact': typeof ContactRoute
+  '/services': typeof ServicesRoute
+  '/blog/$slug': typeof BlogSlugRoute
+  '/blog/': typeof BlogIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/blog'
+    | '/comment-ca-marche'
+    | '/contact'
+    | '/services'
+    | '/blog/$slug'
+    | '/blog/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/comment-ca-marche'
+    | '/contact'
+    | '/services'
+    | '/blog/$slug'
+    | '/blog'
+  id:
+    | '__root__'
+    | '/'
+    | '/blog'
+    | '/comment-ca-marche'
+    | '/contact'
+    | '/services'
+    | '/blog/$slug'
+    | '/blog/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  BlogRoute: typeof BlogRouteWithChildren
+  CommentCaMarcheRoute: typeof CommentCaMarcheRoute
+  ContactRoute: typeof ContactRoute
+  ServicesRoute: typeof ServicesRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +126,69 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/blog': {
+      id: '/blog'
+      path: '/blog'
+      fullPath: '/blog'
+      preLoaderRoute: typeof BlogRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/comment-ca-marche': {
+      id: '/comment-ca-marche'
+      path: '/comment-ca-marche'
+      fullPath: '/comment-ca-marche'
+      preLoaderRoute: typeof CommentCaMarcheRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/services': {
+      id: '/services'
+      path: '/services'
+      fullPath: '/services'
+      preLoaderRoute: typeof ServicesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/blog/': {
+      id: '/blog/'
+      path: '/'
+      fullPath: '/blog/'
+      preLoaderRoute: typeof BlogIndexRouteImport
+      parentRoute: typeof BlogRoute
+    }
+    '/blog/$slug': {
+      id: '/blog/$slug'
+      path: '/$slug'
+      fullPath: '/blog/$slug'
+      preLoaderRoute: typeof BlogSlugRouteImport
+      parentRoute: typeof BlogRoute
+    }
   }
 }
 
+interface BlogRouteChildren {
+  BlogSlugRoute: typeof BlogSlugRoute
+  BlogIndexRoute: typeof BlogIndexRoute
+}
+
+const BlogRouteChildren: BlogRouteChildren = {
+  BlogSlugRoute: BlogSlugRoute,
+  BlogIndexRoute: BlogIndexRoute,
+}
+
+const BlogRouteWithChildren = BlogRoute._addFileChildren(BlogRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  BlogRoute: BlogRouteWithChildren,
+  CommentCaMarcheRoute: CommentCaMarcheRoute,
+  ContactRoute: ContactRoute,
+  ServicesRoute: ServicesRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
