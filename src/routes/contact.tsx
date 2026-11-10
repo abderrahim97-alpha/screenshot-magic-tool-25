@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { CheckCircle2, Clock, Mail, MapPin, MessageCircle, Phone } from "lucide-react";
+import { CheckCircle2, CircleCheck, Clock, Info, Mail, MapPin, MessageCircle, Phone } from "lucide-react";
 import { useState, type FormEvent } from "react";
 
 import { Breadcrumb, PageHeader } from "@/components/site/Bits";
@@ -7,9 +7,13 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { services, site, villes } from "@/lib/site";
+import { services, site } from "@/lib/site";
+import { getTravelFee, travelTownGroups } from "@/lib/travel-fees";
 
 export const Route = createFileRoute("/contact")({
+  validateSearch: (search: Record<string, unknown>) => ({
+    service: services.find((service) => service.slug === search.service)?.slug,
+  }),
   head: () => ({
     meta: [
       { title: "Contact & rendez-vous — Poux Chrono 31 Toulouse" },
@@ -32,7 +36,18 @@ const selectClass =
   "flex h-11 w-full rounded-xl border border-input bg-card px-3 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring";
 
 function ContactPage() {
+  const search = Route.useSearch();
   const [sent, setSent] = useState(false);
+  const [selectedTown, setSelectedTown] = useState("");
+  const isOtherTown = selectedTown === "other";
+  const travelFee = getTravelFee(isOtherTown ? "other" : selectedTown);
+  const feeFormValue = travelFee
+    ? travelFee.amount === null
+      ? "sur devis"
+      : travelFee.amount === 0
+        ? "offerts"
+        : `${travelFee.amount} €`
+    : "À déterminer";
 
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -72,19 +87,56 @@ function ContactPage() {
                 <Input id="tel" type="tel" required maxLength={20} />
               </div>
               <div className="grid gap-2">
-                <Label htmlFor="ville">Commune</Label>
-                <select id="ville" className={selectClass} defaultValue="Toulouse">
-                  {villes.map((v) => (
-                    <option key={v}>{v}</option>
+                <Label htmlFor="commune">Commune</Label>
+                <select
+                  id="commune"
+                  name="commune"
+                  className={selectClass}
+                  value={selectedTown}
+                  onChange={(event) => setSelectedTown(event.target.value)}
+                  required
+                >
+                  <option value="">Choisissez une commune</option>
+                  {travelTownGroups.map((group) => (
+                    <optgroup key={group.label} label={group.label}>
+                      {group.towns.map((town) => (
+                        <option key={town} value={town}>{town}</option>
+                      ))}
+                    </optgroup>
                   ))}
-                  <option>Autre commune du 31</option>
+                  <option value="other">Autre commune</option>
                 </select>
+                {travelFee && (
+                  <p className="flex items-center gap-2 text-sm font-semibold text-primary" role="status">
+                    {travelFee.isFree ? (
+                      <CircleCheck className="size-4 text-mint" aria-hidden="true" />
+                    ) : (
+                      <Info className="size-4 text-primary" aria-hidden="true" />
+                    )}
+                    {travelFee.label}
+                  </p>
+                )}
+              </div>
+              {isOtherTown && (
+                <div className="grid gap-2">
+                  <Label htmlFor="autre-commune">Nom de la commune</Label>
+                  <Input id="autre-commune" name="autreCommune" required maxLength={100} />
+                </div>
+              )}
+              <div className="grid gap-2">
+                <Label htmlFor="adresse">Adresse</Label>
+                <Input id="adresse" name="adresse" required maxLength={200} />
               </div>
               <div className="grid gap-2">
                 <Label htmlFor="service">Service souhaité</Label>
-                <select id="service" className={selectClass}>
+                  <select
+                    id="service"
+                    name="service"
+                    className={selectClass}
+                    defaultValue={search.service ?? services[0]?.slug}
+                  >
                   {services.map((s) => (
-                    <option key={s.slug}>{s.titre}</option>
+                    <option key={s.slug} value={s.slug}>{s.titre}</option>
                   ))}
                 </select>
               </div>
@@ -108,6 +160,7 @@ function ContactPage() {
               <Button type="submit" variant="cta" size="lg" className="sm:col-span-2">
                 Envoyer ma demande
               </Button>
+              <input type="hidden" name="fraisDeplacement" value={feeFormValue} />
               <p className="text-xs text-muted-foreground sm:col-span-2">
                 Vos informations restent confidentielles et servent uniquement à vous recontacter.
               </p>
