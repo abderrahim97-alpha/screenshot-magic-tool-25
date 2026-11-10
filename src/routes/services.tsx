@@ -2,17 +2,17 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { CheckCircle2, Clock, Users } from "lucide-react";
 
 import serviceDomicile from "@/assets/service-domicile.jpg";
-import serviceDepistage from "@/assets/service-depistage.jpg";
 import serviceCollectivite from "@/assets/service-collectivite.jpg";
+import serviceDepistage from "@/assets/service-depistage.jpg";
 import { Breadcrumb, CtaBanner, PageHeader } from "@/components/site/Bits";
 import { Button } from "@/components/ui/button";
 import { services, tarifs } from "@/lib/site";
+import { travelZones } from "@/lib/travel-fees";
 
 const images: Record<string, string> = {
   "traitement-domicile": serviceDomicile,
   "diagnostic-depistage": serviceDepistage,
   collectivite: serviceCollectivite,
-  "kit-prevention": serviceDepistage,
 };
 
 export const Route = createFileRoute("/services")({
@@ -22,12 +22,12 @@ export const Route = createFileRoute("/services")({
       {
         name: "description",
         content:
-          "Traitement à domicile, dépistage, intervention en école et kit de prévention. Des solutions douces et efficaces en Haute-Garonne.",
+          "Traitement à domicile, dépistage et intervention en école. Des solutions douces et efficaces en Haute-Garonne.",
       },
       { property: "og:title", content: "Nos services anti-poux — Poux Chrono 31" },
       {
         property: "og:description",
-        content: "Traitement à domicile, dépistage, collectivités et prévention à Toulouse.",
+        content: "Traitement à domicile, dépistage et collectivités à Toulouse.",
       },
     ],
   }),
@@ -78,7 +78,12 @@ function ServicesPage() {
                 ))}
               </ul>
               <Button asChild variant="cta" className="mt-6">
-                <Link to="/contact">Réserver ce service</Link>
+                <Link
+                  to="/contact"
+                  search={s.slug === "collectivite" ? { service: s.slug } : undefined}
+                >
+                  {s.slug === "collectivite" ? "Demander un devis" : "Réserver ce service"}
+                </Link>
               </Button>
             </div>
           </article>
@@ -88,7 +93,7 @@ function ServicesPage() {
         <div className="section-x">
           <h2 className="text-center text-2xl md:text-3xl">Tarifs du traitement à domicile</h2>
           <p className="mt-2 text-center text-muted-foreground">
-            Prix par personne, déplacement inclus sur Toulouse. Aucune surprise.
+            Prix par personne. Frais de déplacement selon la commune.
           </p>
           <div className="mt-8 overflow-hidden rounded-3xl bg-card shadow-soft">
             {tarifs.map((t) => (
@@ -105,6 +110,38 @@ function ServicesPage() {
                 <p className="font-display text-lg font-extrabold text-primary">{t.prix}</p>
               </div>
             ))}
+          </div>
+          <div className="mt-6 grid gap-5 lg:grid-cols-2">
+            <section className="rounded-3xl bg-mint-soft p-6 shadow-soft">
+              <h3 className="text-xl">Tarif famille</h3>
+              <p className="mt-2 text-sm text-muted-foreground">
+                Pour plusieurs personnes traitées lors de la même intervention :
+              </p>
+              <ul className="mt-4 space-y-2">
+                <li>• 1ʳᵉ personne : tarif normal selon la longueur des cheveux</li>
+                <li>
+                  • À partir de la 2ᵉ personne : <strong>10 € de réduction par personne</strong>
+                </li>
+                <li>
+                  • Offre valable pour les personnes traitées <strong>le même jour et à la même adresse</strong>
+                </li>
+              </ul>
+            </section>
+            <section className="rounded-3xl bg-mint-soft p-6 shadow-soft">
+              <h3 className="text-xl">Frais de déplacement</h3>
+              <ul className="mt-4 space-y-2">
+                <li><strong>Colomiers : offert</strong></li>
+                {travelZones.map((zone) => (
+                  <li key={zone.label}>
+                    <strong>{zone.label} :</strong> {zone.towns.join(", ")}
+                  </li>
+                ))}
+                <li><strong>Toutes les autres communes : sur devis</strong></li>
+              </ul>
+              <p className="mt-4 text-sm text-muted-foreground">
+                Les frais de déplacement sont facturés une seule fois par adresse, quel que soit le nombre de personnes traitées.
+              </p>
+            </section>
           </div>
         </div>
       </section>

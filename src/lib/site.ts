@@ -141,18 +141,4 @@ export const services = [
       "Suivi et second passage possible après 10 jours",
     ],
   },
-  {
-    slug: "kit-prevention",
-    titre: "Kit de prévention à emporter",
-    resume: "Peigne professionnel, spray préventif et guide simple pour tenir la distance.",
-    prix: "29 €",
-    duree: "remis sur place",
-    public: "Toutes les familles, en particulier à la rentrée",
-    details: [
-      "Peigne à dents métalliques longues, qualité professionnelle",
-      "Spray préventif d'origine naturelle pour les matins d'école",
-      "Guide illustré : quoi vérifier, quand et comment",
-      "Offert pour toute intervention sur 3 personnes ou plus",
-    ],
-  },
 ];
