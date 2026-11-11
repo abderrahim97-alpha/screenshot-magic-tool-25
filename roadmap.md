@@ -4,4 +4,4 @@
 - [x] Add family pricing and commune travel charges.
 - [x] Update contact form commune/address fields and live charge message.
 - [x] Preselect the collective-service quote request.
-- [ ] Validate the live flow, test results, and build output.
+- [x] Validate the live flow, test results, and build output.
