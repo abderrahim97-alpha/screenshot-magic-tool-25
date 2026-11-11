@@ -78,10 +78,7 @@ function ServicesPage() {
                 ))}
               </ul>
               <Button asChild variant="cta" className="mt-6">
-                <Link
-                  to="/contact"
-                  search={s.slug === "collectivite" ? { service: s.slug } : {}}
-                >
+                <Link to="/contact" search={s.slug === "collectivite" ? { service: s.slug } : {}}>
                   {s.slug === "collectivite" ? "Demander un devis" : "Réserver ce service"}
                 </Link>
               </Button>
@@ -123,23 +120,29 @@ function ServicesPage() {
                   • À partir de la 2ᵉ personne : <strong>10 € de réduction par personne</strong>
                 </li>
                 <li>
-                  • Offre valable pour les personnes traitées <strong>le même jour et à la même adresse</strong>
+                  • Offre valable pour les personnes traitées{" "}
+                  <strong>le même jour et à la même adresse</strong>
                 </li>
               </ul>
             </section>
             <section className="rounded-3xl bg-mint-soft p-6 shadow-soft">
               <h3 className="text-xl">Frais de déplacement</h3>
               <ul className="mt-4 space-y-2">
-                <li><strong>Colomiers : offert</strong></li>
+                <li>
+                  <strong>Colomiers : offert</strong>
+                </li>
                 {travelZones.map((zone) => (
                   <li key={zone.label}>
                     <strong>{zone.label} :</strong> {zone.towns.join(", ")}
                   </li>
                 ))}
-                <li><strong>Toutes les autres communes : sur devis</strong></li>
+                <li>
+                  <strong>Toutes les autres communes : sur devis</strong>
+                </li>
               </ul>
               <p className="mt-4 text-sm text-muted-foreground">
-                Les frais de déplacement sont facturés une seule fois par adresse, quel que soit le nombre de personnes traitées.
+                Les frais de déplacement sont facturés une seule fois par adresse, quel que soit le
+                nombre de personnes traitées.
               </p>
             </section>
           </div>

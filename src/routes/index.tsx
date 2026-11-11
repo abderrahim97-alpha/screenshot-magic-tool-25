@@ -79,7 +79,10 @@ const etapes = [
   { titre: "Vous nous contactez", texte: "Par téléphone, WhatsApp ou formulaire, à toute heure." },
   { titre: "On fixe un rendez-vous", texte: "Rapidement, chez vous, au créneau qui vous arrange." },
   { titre: "Diagnostic et traitement", texte: "Chaque tête est examinée, puis traitée sur place." },
-  { titre: "Conseils et suivi", texte: "Prévention expliquée simplement, contrôle offert si besoin." },
+  {
+    titre: "Conseils et suivi",
+    texte: "Prévention expliquée simplement, contrôle offert si besoin.",
+  },
 ];
 
 const apercuServices = [
@@ -124,7 +127,9 @@ function Index() {
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <Button asChild variant="cta" size="lg">
-                <Link to="/contact" search={{}}>Prendre rendez-vous</Link>
+                <Link to="/contact" search={{}}>
+                  Prendre rendez-vous
+                </Link>
               </Button>
               <Button asChild variant="outline" size="lg">
                 <a href={site.phoneHref}>
@@ -268,7 +273,10 @@ function Index() {
         <h2 className="text-center text-3xl">Ils nous ont appelés</h2>
         <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
           {temoignages.map((t) => (
-            <figure key={t.prenom} className="rounded-3xl border border-border bg-card p-6 shadow-soft">
+            <figure
+              key={t.prenom}
+              className="rounded-3xl border border-border bg-card p-6 shadow-soft"
+            >
               <div className="flex items-center gap-3">
                 <span className="inline-flex size-11 items-center justify-center rounded-full bg-accent text-sm font-bold text-primary">
                   {t.prenom.slice(0, 2).toUpperCase()}

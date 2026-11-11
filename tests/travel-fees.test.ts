@@ -1,10 +1,6 @@
 import { describe, expect, it } from "bun:test";
 
-import {
-  getFamilyDiscount,
-  getTravelFee,
-  travelZones,
-} from "../src/lib/travel-fees";
+import { getFamilyDiscount, getTravelFee, travelZones } from "../src/lib/travel-fees";
 
 describe("user-provided travel charges", () => {
   it("maps each listed town to its exact travel fee", () => {

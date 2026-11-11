@@ -47,7 +47,9 @@ export function Header() {
             {site.phoneDisplay}
           </a>
           <Button asChild variant="cta" className="hidden sm:inline-flex">
-            <Link to="/contact" search={{}}>Prendre rendez-vous</Link>
+            <Link to="/contact" search={{}}>
+              Prendre rendez-vous
+            </Link>
           </Button>
           <button
             type="button"
@@ -97,7 +99,9 @@ export function MobileActionBar() {
         </a>
       </Button>
       <Button asChild variant="cta" size="lg" className="w-full">
-        <Link to="/contact" search={{}}>RDV en ligne</Link>
+        <Link to="/contact" search={{}}>
+          RDV en ligne
+        </Link>
       </Button>
     </div>
   );

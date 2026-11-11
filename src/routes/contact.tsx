@@ -1,5 +1,14 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { CheckCircle2, CircleCheck, Clock, Info, Mail, MapPin, MessageCircle, Phone } from "lucide-react";
+import {
+  CheckCircle2,
+  CircleCheck,
+  Clock,
+  Info,
+  Mail,
+  MapPin,
+  MessageCircle,
+  Phone,
+} from "lucide-react";
 import { useState, type FormEvent } from "react";
 
 import { Breadcrumb, PageHeader } from "@/components/site/Bits";
@@ -103,14 +112,19 @@ function ContactPage() {
                   {travelTownGroups.map((group) => (
                     <optgroup key={group.label} label={group.label}>
                       {group.towns.map((town) => (
-                        <option key={town} value={town}>{town}</option>
+                        <option key={town} value={town}>
+                          {town}
+                        </option>
                       ))}
                     </optgroup>
                   ))}
                   <option value="other">Autre commune</option>
                 </select>
                 {travelFee && (
-                  <p className="flex items-center gap-2 text-sm font-semibold text-primary" role="status">
+                  <p
+                    className="flex items-center gap-2 text-sm font-semibold text-primary"
+                    role="status"
+                  >
                     {travelFee.isFree ? (
                       <CircleCheck className="size-4 text-mint" aria-hidden="true" />
                     ) : (
@@ -132,12 +146,15 @@ function ContactPage() {
               </div>
               <div className="grid gap-2">
                 <Label htmlFor="service">Service souhaité</Label>
-                  <select
-                    id="service"
-                    name="service"
-                    className={selectClass}
-                    defaultValue={services.find((item) => item.slug === defaultService)?.titre ?? services[0]?.titre}
-                  >
+                <select
+                  id="service"
+                  name="service"
+                  className={selectClass}
+                  defaultValue={
+                    services.find((item) => item.slug === defaultService)?.titre ??
+                    services[0]?.titre
+                  }
+                >
                   {services.map((s) => (
                     <option key={s.slug}>{s.titre}</option>
                   ))}
@@ -173,12 +190,20 @@ function ContactPage() {
         <aside className="space-y-4">
           {[
             { icon: Phone, label: "Téléphone", value: site.phoneDisplay, href: site.phoneHref },
-            { icon: MessageCircle, label: "WhatsApp", value: "Écrivez-nous", href: site.whatsappHref },
+            {
+              icon: MessageCircle,
+              label: "WhatsApp",
+              value: "Écrivez-nous",
+              href: site.whatsappHref,
+            },
             { icon: Mail, label: "E-mail", value: site.email, href: `mailto:${site.email}` },
             { icon: Clock, label: "Horaires", value: site.horaires },
             { icon: MapPin, label: "Zone", value: site.zone },
           ].map((c) => (
-            <div key={c.label} className="flex items-center gap-4 rounded-2xl bg-card p-4 shadow-soft">
+            <div
+              key={c.label}
+              className="flex items-center gap-4 rounded-2xl bg-card p-4 shadow-soft"
+            >
               <div className="flex size-11 items-center justify-center rounded-xl bg-accent text-primary">
                 <c.icon className="size-5" />
               </div>
