@@ -136,10 +136,10 @@ function ContactPage() {
                     id="service"
                     name="service"
                     className={selectClass}
-                    defaultValue={defaultService ?? services[0]?.slug}
+                    defaultValue={services.find((item) => item.slug === defaultService)?.titre ?? services[0]?.titre}
                   >
                   {services.map((s) => (
-                    <option key={s.slug} value={s.slug}>{s.titre}</option>
+                    <option key={s.slug}>{s.titre}</option>
                   ))}
                 </select>
               </div>

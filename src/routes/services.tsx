@@ -80,7 +80,7 @@ function ServicesPage() {
               <Button asChild variant="cta" className="mt-6">
                 <Link
                   to="/contact"
-                  search={{ service: s.slug }}
+                  search={s.slug === "collectivite" ? { service: s.slug } : {}}
                 >
                   {s.slug === "collectivite" ? "Demander un devis" : "Réserver ce service"}
                 </Link>

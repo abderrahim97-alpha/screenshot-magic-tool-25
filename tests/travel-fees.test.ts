@@ -36,6 +36,11 @@ describe("user-provided travel charges", () => {
       label: "Frais de déplacement : offerts",
       isFree: true,
     });
+    for (const zone of travelZones) {
+      for (const town of zone.towns) {
+        expect(getTravelFee(town)?.amount).toBe(zone.amount);
+      }
+    }
     expect(getTravelFee("Autre commune")).toEqual({
       amount: null,
       label: "Frais de déplacement : sur devis",
