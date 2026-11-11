@@ -124,7 +124,7 @@ function Index() {
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <Button asChild variant="cta" size="lg">
-                <Link to="/contact">Prendre rendez-vous</Link>
+                <Link to="/contact" search={{}}>Prendre rendez-vous</Link>
               </Button>
               <Button asChild variant="outline" size="lg">
                 <a href={site.phoneHref}>
@@ -313,7 +313,7 @@ function Index() {
           </Accordion>
           <p className="mt-6 text-center text-sm text-muted-foreground">
             Une autre question ?{" "}
-            <Link to="/contact" className="font-bold text-primary hover:underline">
+            <Link to="/contact" search={{}} className="font-bold text-primary hover:underline">
               Écrivez-nous
             </Link>{" "}
             ou lisez nos{" "}
