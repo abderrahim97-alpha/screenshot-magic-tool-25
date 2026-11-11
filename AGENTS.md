@@ -8,3 +8,5 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+- Keep travel-fee mappings and family-discount calculations in `src/lib/travel-fees.ts` so pricing displays and booking options share the same values.

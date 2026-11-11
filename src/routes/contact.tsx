@@ -1,4 +1,4 @@
-import { createFileRoute, useLocation } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import { CheckCircle2, CircleCheck, Clock, Info, Mail, MapPin, MessageCircle, Phone } from "lucide-react";
 import { useState, type FormEvent } from "react";
 
@@ -10,7 +10,13 @@ import { Textarea } from "@/components/ui/textarea";
 import { services, site } from "@/lib/site";
 import { getTravelFee, travelTownGroups } from "@/lib/travel-fees";
 
+type ContactSearch = { service?: string };
+
 export const Route = createFileRoute("/contact")({
+  validateSearch: (search: Record<string, unknown>): ContactSearch => {
+    const service = services.find((item) => item.slug === search["service"])?.slug;
+    return service ? { service } : {};
+  },
   head: () => ({
     meta: [
       { title: "Contact & rendez-vous — Poux Chrono 31 Toulouse" },
@@ -33,9 +39,7 @@ const selectClass =
   "flex h-11 w-full rounded-xl border border-input bg-card px-3 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring";
 
 function ContactPage() {
-  const location = useLocation();
-  const requestedService = new URLSearchParams(location.search).get("service");
-  const defaultService = services.find((service) => service.slug === requestedService)?.slug;
+  const { service: defaultService } = Route.useSearch();
   const [sent, setSent] = useState(false);
   const [selectedTown, setSelectedTown] = useState("");
   const isOtherTown = selectedTown === "other";
