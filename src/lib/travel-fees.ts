@@ -1,4 +1,10 @@
-export const travelZones = [
+type TravelZone = {
+  label: string;
+  amount: number;
+  towns: string[];
+};
+
+export const travelZones: TravelZone[] = [
   {
     label: "Zone 1 – 5 €",
     amount: 5,
@@ -23,7 +29,7 @@ export const travelZones = [
     amount: 15,
     towns: ["Seilh", "Fenouillet", "Frouzins", "Villeneuve-Tolosane"],
   },
-] as const;
+];
 
 export const travelTownGroups = [
   { label: "Colomiers", towns: ["Colomiers"] },

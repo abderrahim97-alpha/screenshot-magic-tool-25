@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useLocation } from "@tanstack/react-router";
 import { CheckCircle2, CircleCheck, Clock, Info, Mail, MapPin, MessageCircle, Phone } from "lucide-react";
 import { useState, type FormEvent } from "react";
 
@@ -11,9 +11,6 @@ import { services, site } from "@/lib/site";
 import { getTravelFee, travelTownGroups } from "@/lib/travel-fees";
 
 export const Route = createFileRoute("/contact")({
-  validateSearch: (search: Record<string, unknown>) => ({
-    service: services.find((service) => service.slug === search.service)?.slug,
-  }),
   head: () => ({
     meta: [
       { title: "Contact & rendez-vous — Poux Chrono 31 Toulouse" },
@@ -36,7 +33,9 @@ const selectClass =
   "flex h-11 w-full rounded-xl border border-input bg-card px-3 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring";
 
 function ContactPage() {
-  const search = Route.useSearch();
+  const location = useLocation();
+  const requestedService = new URLSearchParams(location.search).get("service");
+  const defaultService = services.find((service) => service.slug === requestedService)?.slug;
   const [sent, setSent] = useState(false);
   const [selectedTown, setSelectedTown] = useState("");
   const isOtherTown = selectedTown === "other";
@@ -133,7 +132,7 @@ function ContactPage() {
                     id="service"
                     name="service"
                     className={selectClass}
-                    defaultValue={search.service ?? services[0]?.slug}
+                    defaultValue={defaultService ?? services[0]?.slug}
                   >
                   {services.map((s) => (
                     <option key={s.slug} value={s.slug}>{s.titre}</option>
