@@ -70,7 +70,9 @@ export function CtaBanner({ className }: { className?: string }) {
         </p>
         <div className="mt-7 flex flex-col items-center justify-center gap-3 sm:flex-row">
           <Button asChild variant="cta" size="lg">
-            <Link to="/contact">Prendre rendez-vous</Link>
+            <Link to="/contact" search={{}}>
+              Prendre rendez-vous
+            </Link>
           </Button>
           <Button asChild variant="outline" size="lg">
             <a href={site.phoneHref}>
