@@ -5,3 +5,4 @@
 - [x] Update contact form commune/address fields and live charge message.
 - [x] Preselect the collective-service quote request.
 - [x] Validate the live flow, test results, and build output.
+- [x] Add a decorative louse that bobs up and down while scrolling across pages.

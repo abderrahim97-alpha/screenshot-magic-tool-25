@@ -12,7 +12,7 @@ import { lazy, useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
-import { FloatingContact, Header, MobileActionBar } from "@/components/site/Header";
+import { FloatingContact, Header, MobileActionBar, ScrollingLouse } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
 import { Toaster } from "@/components/ui/sonner";
 
@@ -137,6 +137,7 @@ function RootComponent() {
         </main>
         <Footer />
         <FloatingContact />
+        <ScrollingLouse />
         <MobileActionBar />
       </div>
       <Toaster />

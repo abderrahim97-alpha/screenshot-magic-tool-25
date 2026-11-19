@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { Menu, MessageCircle, Phone, X } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import logo from "@/assets/logo.png.asset.json";
 import { Button } from "@/components/ui/button";
@@ -87,6 +87,54 @@ export function Header() {
         </div>
       )}
     </header>
+  );
+}
+
+export function ScrollingLouse() {
+  const [offset, setOffset] = useState(0);
+
+  useEffect(() => {
+    let frame = 0;
+
+    const updatePosition = () => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => {
+        const phase = (window.scrollY % 360) / 360;
+        const bounce = phase < 0.5 ? phase * 2 : (1 - phase) * 2;
+        setOffset(Math.round(bounce * 64));
+      });
+    };
+
+    updatePosition();
+    window.addEventListener("scroll", updatePosition, { passive: true });
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", updatePosition);
+    };
+  }, []);
+
+  return (
+    <div
+      aria-hidden="true"
+      className="pointer-events-none fixed right-3 top-[32%] z-30 size-10 text-primary motion-reduce:hidden"
+      style={{ transform: `translateY(${offset}px)` }}
+    >
+      <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <g className="text-primary" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+          <path d="M18 24 9 19M17 29 7 31M19 34 12 41M30 24l9-5M31 29l10 2M29 34l7 7" />
+          <path d="m21 15-3-5m9 5 4-5" />
+        </g>
+        <g className="text-destructive" fill="currentColor">
+          <ellipse cx="24" cy="29" rx="8.5" ry="12" />
+          <ellipse cx="24" cy="17" rx="6" ry="5.5" />
+          <path d="M17 26h14M16.5 31h15M17 36h14" stroke="var(--color-destructive-foreground)" strokeWidth="1.5" />
+        </g>
+        <g className="text-foreground" fill="currentColor">
+          <circle cx="22" cy="17" r="1" />
+          <circle cx="26" cy="17" r="1" />
+        </g>
+      </svg>
+    </div>
   );
 }
 

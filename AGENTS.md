@@ -12,3 +12,4 @@
 <!-- LOVABLE:END -->
 
 - Keep travel-fee mappings and family-discount calculations in `src/lib/travel-fees.ts` so pricing displays and booking options share the same values.
+- Mount shared floating site accents from the root layout so they remain consistent across every page.
