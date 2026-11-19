@@ -132,6 +132,45 @@
   }
 }
 
+@keyframes louse-step-left {
+  from { transform: translateY(-2px) rotate(-9deg); }
+  to { transform: translateY(2px) rotate(9deg); }
+}
+
+@keyframes louse-step-right {
+  from { transform: translateY(2px) rotate(9deg); }
+  to { transform: translateY(-2px) rotate(-9deg); }
+}
+
+@keyframes louse-climb {
+  from { transform: rotate(-4deg); }
+  to { transform: rotate(4deg); }
+}
+
+.is-crawling .louse-legs-left,
+.is-crawling .louse-legs-right {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation-duration: 180ms;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+
+.is-crawling .louse-legs-left {
+  animation-name: louse-step-left;
+}
+
+.is-crawling .louse-legs-right {
+  animation-name: louse-step-right;
+}
+
+.is-crawling .louse-body {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: louse-climb 180ms ease-in-out infinite alternate;
+}
+
 @utility section-x {
   margin-inline: auto;
   width: 100%;

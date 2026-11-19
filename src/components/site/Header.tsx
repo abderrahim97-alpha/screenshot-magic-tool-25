@@ -92,16 +92,21 @@ export function Header() {
 
 export function ScrollingLouse() {
   const [offset, setOffset] = useState(0);
+  const [isCrawling, setIsCrawling] = useState(false);
 
   useEffect(() => {
     let frame = 0;
+    let stopTimer = 0;
 
     const updatePosition = () => {
+      setIsCrawling(true);
+      window.clearTimeout(stopTimer);
+      stopTimer = window.setTimeout(() => setIsCrawling(false), 180);
       cancelAnimationFrame(frame);
       frame = requestAnimationFrame(() => {
         const phase = (window.scrollY % 360) / 360;
-        const bounce = phase < 0.5 ? phase * 2 : (1 - phase) * 2;
-        setOffset(Math.round(bounce * 64));
+        const climb = phase < 0.5 ? phase * 2 : (1 - phase) * 2;
+        setOffset(Math.round(climb * 150));
       });
     };
 
@@ -109,6 +114,7 @@ export function ScrollingLouse() {
     window.addEventListener("scroll", updatePosition, { passive: true });
     return () => {
       cancelAnimationFrame(frame);
+      window.clearTimeout(stopTimer);
       window.removeEventListener("scroll", updatePosition);
     };
   }, []);
@@ -116,22 +122,38 @@ export function ScrollingLouse() {
   return (
     <div
       aria-hidden="true"
-      className="pointer-events-none fixed right-3 top-[32%] z-30 size-10 text-primary motion-reduce:hidden"
-      style={{ transform: `translateY(${offset}px)` }}
+      className={`pointer-events-none fixed right-1 top-[27%] z-30 h-[200px] w-16 text-primary motion-reduce:hidden ${isCrawling ? "is-crawling" : ""}`}
     >
-      <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <g className="text-primary" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
-          <path d="M18 24 9 19M17 29 7 31M19 34 12 41M30 24l9-5M31 29l10 2M29 34l7 7" />
-          <path d="m21 15-3-5m9 5 4-5" />
-        </g>
-        <g className="text-destructive" fill="currentColor">
-          <ellipse cx="24" cy="29" rx="8.5" ry="12" />
-          <ellipse cx="24" cy="17" rx="6" ry="5.5" />
-          <path d="M17 26h14M16.5 31h15M17 36h14" stroke="var(--color-destructive-foreground)" strokeWidth="1.5" />
-        </g>
-        <g className="text-foreground" fill="currentColor">
-          <circle cx="22" cy="17" r="1" />
-          <circle cx="26" cy="17" r="1" />
+      <svg viewBox="0 0 64 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path
+          d="M32 4C27 29 37 48 32 69S27 110 33 132s-4 44-1 64"
+          stroke="currentColor"
+          strokeOpacity=".55"
+          strokeWidth="2"
+          strokeLinecap="round"
+        />
+        <path
+          d="M34 5C29 30 39 49 34 70s-5 41 1 62-4 43-1 62"
+          stroke="currentColor"
+          strokeOpacity=".2"
+          strokeWidth="1"
+          strokeLinecap="round"
+        />
+        <g transform={`translate(32 ${20 + offset})`}>
+          <g className="louse-legs-left" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+            <path d="M-5-5-12-9l-3 3M-7 1l-9-1-3 4M-6 8l-7 5 1 4" />
+          </g>
+          <g className="louse-legs-right" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+            <path d="M5-5 12-9l3 3M7 1l9-1 3 4M6 8l7 5-1 4" />
+          </g>
+          <g className="louse-body">
+            <ellipse cx="0" cy="5" rx="7" ry="11" fill="var(--color-destructive)" />
+            <circle cx="0" cy="-8" r="6" fill="var(--color-destructive)" />
+            <path d="M-4-11-7-16M4-11l3-5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+            <path d="M-6 1h12M-7 6h14M-6 11h12" stroke="var(--color-destructive-foreground)" strokeWidth="1.5" />
+            <circle cx="-2" cy="-9" r="1" fill="var(--color-destructive-foreground)" />
+            <circle cx="2" cy="-9" r="1" fill="var(--color-destructive-foreground)" />
+          </g>
         </g>
       </svg>
     </div>
