@@ -54,7 +54,7 @@ export function Header() {
               : "h-16 max-w-[76rem] border-b border-transparent bg-background/70 px-5 backdrop-blur-md md:px-8 lg:h-20",
           )}
         >
-          <Link to="/" className="shrink-0 rounded-lg" aria-label="Poux Chrono 31 — Accueil">
+          <Link to="/" className="flex min-h-11 shrink-0 items-center rounded-lg" aria-label="Poux Chrono 31 — Accueil">
             <img
               src={logo.url}
               alt="Poux Chrono 31"
