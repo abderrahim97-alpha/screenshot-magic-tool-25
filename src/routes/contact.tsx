@@ -13,7 +13,7 @@ import { useState, type FormEvent } from "react";
 
 import { Breadcrumb, PageHeader } from "@/components/site/Bits";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { fieldClass, Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { services, site } from "@/lib/site";
@@ -44,8 +44,7 @@ export const Route = createFileRoute("/contact")({
   component: ContactPage,
 });
 
-const selectClass =
-  "flex h-11 w-full rounded-xl border border-input bg-card px-3 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring";
+const selectClass = fieldClass;
 
 function ContactPage() {
   const { service: defaultService } = Route.useSearch();
