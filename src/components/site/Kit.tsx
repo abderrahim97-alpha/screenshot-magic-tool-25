@@ -37,7 +37,7 @@ export function Section({
     <Tag
       id={id}
       data-tone={tone}
-      className={cn("relative py-20 md:py-28", toneClass[tone], className)}
+      className={cn("relative py-20 md:py-24", toneClass[tone], className)}
     >
       {tone === "navy" && (
         <div

@@ -99,6 +99,7 @@ export function CountUp({
   prefix = "",
   suffix = "",
   duration = 1400,
+  grouping = true,
   className,
 }: {
   value: number;
@@ -106,6 +107,7 @@ export function CountUp({
   prefix?: string;
   suffix?: string;
   duration?: number;
+  grouping?: boolean;
   className?: string | undefined;
 }) {
   const ref = useRef<HTMLSpanElement>(null);
@@ -113,6 +115,7 @@ export function CountUp({
     `${prefix}${n.toLocaleString("fr-FR", {
       minimumFractionDigits: decimals,
       maximumFractionDigits: decimals,
+      useGrouping: grouping,
     })}${suffix}`;
 
   useEffect(() => {
@@ -141,7 +144,7 @@ export function CountUp({
       cancelAnimationFrame(frame);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [value, decimals, prefix, suffix, duration]);
+  }, [value, decimals, prefix, suffix, duration, grouping]);
 
   return (
     <span ref={ref} className={cn("tabular-nums", className)}>

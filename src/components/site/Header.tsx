@@ -50,7 +50,7 @@ export function Header() {
           className={cn(
             "mx-auto flex items-center justify-between gap-3 transition-[max-width,height,border-radius,background-color,box-shadow,padding] duration-500 ease-out",
             scrolled
-              ? "glass h-12 max-w-6xl rounded-full pl-4 pr-1.5 shadow-card lg:h-14 lg:pl-6 lg:pr-2"
+              ? "h-12 max-w-6xl rounded-full border border-white/70 bg-white/90 pl-4 pr-1.5 shadow-card backdrop-blur-xl backdrop-saturate-150 lg:h-14 lg:pl-6 lg:pr-2"
               : "h-16 max-w-[76rem] border-b border-transparent bg-background/70 px-5 backdrop-blur-md md:px-8 lg:h-20",
           )}
         >
@@ -195,7 +195,7 @@ function MobileMenu({
                 to={item.to}
                 onClick={() => onOpenChange(false)}
                 className={cn(
-                  "group flex items-center justify-between border-b border-border/70 py-4 font-display text-[clamp(1.75rem,8vw,2.5rem)] font-semibold tracking-tight animate-in fade-in slide-in-from-bottom-4 fill-mode-both duration-500",
+                  "group flex items-center justify-between border-b border-border/70 py-4 font-display text-[clamp(1.6rem,7.5vw,2.4rem)] leading-tight font-semibold tracking-tight animate-in fade-in slide-in-from-bottom-4 fill-mode-both duration-500",
                   i === current ? "text-primary" : "text-navy",
                 )}
                 style={{ animationDelay: `${80 + i * 60}ms` }}

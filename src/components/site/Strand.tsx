@@ -39,29 +39,34 @@ export function HairStrand({
   draw?: boolean;
   delay?: number;
 }) {
-  const ref = useRef<SVGSVGElement>(null);
+  // Observe an unclipped wrapper: IntersectionObserver honours the target's own clip-path.
+  const ref = useRef<HTMLSpanElement>(null);
   useReveal(ref, { threshold: 0.2 });
   const length = 600;
   const box = amplitude * 2 + 2;
   return (
-    <svg
+    <span
       ref={ref}
       aria-hidden="true"
       data-draw={draw ? "" : undefined}
-      viewBox={vertical ? `0 0 ${box} ${length}` : `0 0 ${length} ${box}`}
-      preserveAspectRatio="none"
-      fill="none"
-      className={cn("overflow-visible", vertical ? "draw-y" : "draw-x", className)}
+      className={cn("block", className)}
       style={{ "--draw-delay": `${delay}ms` } as CSSProperties}
     >
-      <path
-        d={wavePath(length, amplitude, waves, vertical)}
-        stroke="currentColor"
-        strokeWidth={strokeWidth}
-        strokeLinecap="round"
-        vectorEffect="non-scaling-stroke"
-      />
-    </svg>
+      <svg
+        viewBox={vertical ? `0 0 ${box} ${length}` : `0 0 ${length} ${box}`}
+        preserveAspectRatio="none"
+        fill="none"
+        className={cn("block h-full w-full overflow-visible", vertical ? "draw-y" : "draw-x")}
+      >
+        <path
+          d={wavePath(length, amplitude, waves, vertical)}
+          stroke="currentColor"
+          strokeWidth={strokeWidth}
+          strokeLinecap="round"
+          vectorEffect="non-scaling-stroke"
+        />
+      </svg>
+    </span>
   );
 }
 
