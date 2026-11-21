@@ -50,6 +50,8 @@ type RevealProps = {
   variant?: "up" | "fade" | "scale";
   style?: CSSProperties;
   id?: string;
+  /** Animate on page load with pure CSS (above-the-fold content, no wait for hydration). */
+  load?: boolean;
 };
 
 export function Reveal({
@@ -60,9 +62,24 @@ export function Reveal({
   variant = "up",
   style,
   id,
+  load = false,
 }: RevealProps) {
   const ref = useRef<HTMLElement>(null);
-  useReveal(ref);
+  useReveal(load ? { current: null } : ref);
+  if (load) {
+    return (
+      <Tag
+        id={id}
+        className={cn(
+          "animate-in fade-in slide-in-from-bottom-6 fill-mode-both duration-700 ease-out",
+          className,
+        )}
+        style={{ ...style, animationDelay: `${delay}ms` }}
+      >
+        {children}
+      </Tag>
+    );
+  }
   return (
     <Tag
       ref={ref}

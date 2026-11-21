@@ -179,15 +179,16 @@ function Hero() {
 
         {/* Copy */}
         <div className="flex flex-col pt-2 md:order-1 md:pt-0">
-          <Reveal className="order-1">
+          <Reveal load className="order-1">
             <Pill live tone="mint">
               Disponible aujourd'hui
             </Pill>
           </Reveal>
-          <Reveal as="h1" delay={80} className="order-2 mt-4 text-display-xl text-navy md:mt-6">
+          <Reveal load as="h1" delay={80} className="order-2 mt-4 text-display-xl text-navy md:mt-6">
             Des poux ? On s'occupe de tout, <Highlight>aujourd'hui</Highlight>.
           </Reveal>
           <Reveal
+            load
             as="p"
             delay={160}
             className="order-4 mt-5 text-lg leading-relaxed text-muted-foreground md:order-3 md:mt-6 md:text-xl"
@@ -196,6 +197,7 @@ function Hero() {
             vous à Toulouse et partout en Haute-Garonne. Vous n'avez rien à préparer.
           </Reveal>
           <Reveal
+            load
             delay={220}
             className="order-3 mt-6 flex flex-col gap-3 sm:flex-row md:order-4 md:mt-9"
           >
@@ -212,6 +214,7 @@ function Hero() {
             </Button>
           </Reveal>
           <Reveal
+            load
             as="ul"
             delay={300}
             className="order-5 mt-7 flex flex-wrap gap-x-5 gap-y-2.5 text-sm font-semibold text-navy/75 md:mt-10"

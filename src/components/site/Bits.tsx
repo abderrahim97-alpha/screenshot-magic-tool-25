@@ -50,7 +50,7 @@ export function PageHeader({
       </div>
       <div className="section-x">
         {breadcrumb && <Breadcrumb items={breadcrumb} />}
-        <Reveal className="mt-8 max-w-3xl md:mt-12">
+        <Reveal load className="mt-8 max-w-3xl md:mt-12">
           {eyebrow && <Eyebrow>{eyebrow}</Eyebrow>}
           <h1 className="mt-4 text-display-xl text-navy">{withHighlight(titre, highlight)}</h1>
           {intro && (
