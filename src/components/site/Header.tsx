@@ -122,37 +122,39 @@ export function ScrollingLouse() {
   return (
     <div
       aria-hidden="true"
-      className={`pointer-events-none fixed right-1 top-[27%] z-30 h-[200px] w-16 text-primary motion-reduce:hidden ${isCrawling ? "is-crawling" : ""}`}
+      className={`pointer-events-none fixed right-0 top-[27%] z-30 h-[200px] w-16 text-primary motion-reduce:hidden ${isCrawling ? "is-crawling" : ""}`}
     >
       <svg viewBox="0 0 64 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path
-          d="M32 4C27 29 37 48 32 69S27 110 33 132s-4 44-1 64"
-          stroke="currentColor"
-          strokeOpacity=".55"
-          strokeWidth="2"
-          strokeLinecap="round"
-        />
-        <path
-          d="M34 5C29 30 39 49 34 70s-5 41 1 62-4 43-1 62"
-          stroke="currentColor"
-          strokeOpacity=".2"
-          strokeWidth="1"
-          strokeLinecap="round"
-        />
-        <g transform={`translate(32 ${20 + offset})`}>
-          <g className="louse-legs-left" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-            <path d="M-5-5-12-9l-3 3M-7 1l-9-1-3 4M-6 8l-7 5 1 4" />
-          </g>
-          <g className="louse-legs-right" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-            <path d="M5-5 12-9l3 3M7 1l9-1 3 4M6 8l7 5-1 4" />
-          </g>
-          <g className="louse-body">
-            <ellipse cx="0" cy="5" rx="7" ry="11" fill="var(--color-destructive)" />
-            <circle cx="0" cy="-8" r="6" fill="var(--color-destructive)" />
-            <path d="M-4-11-7-16M4-11l3-5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-            <path d="M-6 1h12M-7 6h14M-6 11h12" stroke="var(--color-destructive-foreground)" strokeWidth="1.5" />
-            <circle cx="-2" cy="-9" r="1" fill="var(--color-destructive-foreground)" />
-            <circle cx="2" cy="-9" r="1" fill="var(--color-destructive-foreground)" />
+        <g transform="translate(11 0)">
+          <path
+            d="M32 4C27 29 37 48 32 69S27 110 33 132s-4 44-1 64"
+            stroke="currentColor"
+            strokeOpacity=".55"
+            strokeWidth="2"
+            strokeLinecap="round"
+          />
+          <path
+            d="M34 5C29 30 39 49 34 70s-5 41 1 62-4 43-1 62"
+            stroke="currentColor"
+            strokeOpacity=".2"
+            strokeWidth="1"
+            strokeLinecap="round"
+          />
+          <g transform={`translate(32 ${20 + offset})`}>
+            <g className="louse-legs-left" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+              <path d="M-5-5-12-9l-3 3M-7 1l-9-1-3 4M-6 8l-7 5 1 4" />
+            </g>
+            <g className="louse-legs-right" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+              <path d="M5-5 12-9l3 3M7 1 16 0l3 4M6 8l7 5-1 4" />
+            </g>
+            <g className="louse-body">
+              <ellipse cx="0" cy="5" rx="7" ry="11" fill="var(--color-destructive)" />
+              <circle cx="0" cy="-8" r="6" fill="var(--color-destructive)" />
+              <path d="M-4-11-7-16M4-11l3-5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+              <path d="M-6 1h12M-7 6h14M-6 11h12" stroke="var(--color-destructive-foreground)" strokeWidth="1.5" />
+              <circle cx="-2" cy="-9" r="1" fill="var(--color-destructive-foreground)" />
+              <circle cx="2" cy="-9" r="1" fill="var(--color-destructive-foreground)" />
+            </g>
           </g>
         </g>
       </svg>
