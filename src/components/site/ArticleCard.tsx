@@ -21,8 +21,8 @@ export function ArticleCard({
           src={a.image}
           alt=""
           loading="lazy"
-          width={1024}
-          height={656}
+          width={1586}
+          height={992}
           className="aspect-[16/10] w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
         />
         <span

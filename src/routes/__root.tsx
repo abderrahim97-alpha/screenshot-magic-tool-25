@@ -16,10 +16,10 @@ import { ArrowRight } from "lucide-react";
 
 import { FloatingContact, MobileDock } from "@/components/site/FloatingActions";
 import { Header } from "@/components/site/Header";
-import { LouseOnStrand, ScrollingLouse } from "@/components/site/Louse";
+import { ScrollingLouse } from "@/components/site/Louse";
+import { NotFoundIllustration } from "@/components/site/NotFoundIllustration";
 import { Highlight } from "@/components/site/Strand";
 import { Button } from "@/components/ui/button";
-import { images } from "@/lib/assets";
 import { Footer } from "@/components/site/Footer";
 import { Toaster } from "@/components/ui/sonner";
 
@@ -30,33 +30,21 @@ function NotFoundComponent() {
         <div className="absolute -top-32 left-1/4 size-[30rem] rounded-full bg-accent blur-3xl" />
         <div className="absolute right-0 bottom-0 size-[26rem] rounded-full bg-mint-soft blur-3xl" />
       </div>
-      <div className="section-x grid items-center gap-10 md:grid-cols-[1fr_0.9fr]">
-        <div className="text-center md:text-left">
-          <p className="font-display text-[clamp(5rem,18vw,9rem)] leading-none font-extrabold tracking-[-0.06em] text-primary/15">
-            404
-          </p>
-          <h1 className="mt-2 text-display-lg text-navy">
-            Oups, cette page s'est <Highlight tone="red">échappée</Highlight>
-          </h1>
-          <div className="mt-8 flex justify-center md:justify-start">
-            <Button asChild variant="cta" size="lg">
-              <Link to="/">
-                Retour à l'accueil
-                <ArrowRight data-arrow />
-              </Link>
-            </Button>
-          </div>
-        </div>
-        <div className="relative mx-auto flex aspect-square w-full max-w-sm items-center justify-center rounded-full bg-gradient-to-br from-mint-soft to-accent">
-          {images.illustration404 ? (
-            <img
-              src={images.illustration404}
-              alt=""
-              className="h-full w-full rounded-full object-cover"
-            />
-          ) : (
-            <LouseOnStrand className="h-[80%] w-auto" />
-          )}
+      <div className="section-x flex flex-col items-center text-center">
+        <NotFoundIllustration />
+        <p className="mt-8 font-display text-[clamp(3.5rem,12vw,6rem)] leading-none font-extrabold tracking-[-0.06em] text-primary/15">
+          404
+        </p>
+        <h1 className="mt-2 text-display-lg text-navy">
+          Oups, cette page s'est <Highlight tone="red">échappée</Highlight>
+        </h1>
+        <div className="mt-8 flex justify-center">
+          <Button asChild variant="cta" size="lg">
+            <Link to="/">
+              Retour à l'accueil
+              <ArrowRight data-arrow />
+            </Link>
+          </Button>
         </div>
       </div>
     </section>

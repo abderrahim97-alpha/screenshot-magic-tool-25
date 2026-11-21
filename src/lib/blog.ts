@@ -1,9 +1,9 @@
-import imgReconnaitre from "@/assets/blog-reconnaitre.jpg";
-import img24h from "@/assets/blog-24h.jpg";
-import imgIdees from "@/assets/blog-idees-recues.jpg";
-import imgPrevention from "@/assets/blog-prevention.jpg";
-import imgRentree from "@/assets/blog-rentree.jpg";
-import imgCycle from "@/assets/blog-cycle.jpg";
+import imgReconnaitre from "@/assets/blog-reconnaitre.png";
+import img24h from "@/assets/blog-24h.png";
+import imgIdees from "@/assets/blog-idees-recues.png";
+import imgPrevention from "@/assets/blog-prevention.png";
+import imgRentree from "@/assets/blog-rentree.png";
+import imgCycle from "@/assets/blog-cycle.png";
 
 export type Article = {
   slug: string;

@@ -1,35 +1,30 @@
-/**
- * Illustration lookup.
- *
- * New illustrations are dropped into `src/assets/` with fixed file names. Until a file
- * exists, the closest existing image is used as a temporary fallback, so the build never
- * breaks. Once the real file is added, it is picked up automatically on the next build.
- */
-const files = import.meta.glob<string>("../assets/*.{jpg,jpeg,png,webp}", {
-  eager: true,
-  import: "default",
-});
+import illustration404 from "@/assets/illustration-404.png";
+import etape1 from "@/assets/etape-1-appel.png";
+import etape2 from "@/assets/etape-2-rdv.png";
+import etape3 from "@/assets/etape-3-traitement.png";
+import etape4 from "@/assets/etape-4-conseils.png";
+import hero from "@/assets/hero-famille.png";
+import serviceCollectivite from "@/assets/service-collectivite.png";
+import serviceDepistage from "@/assets/service-depistage.png";
+import serviceDomicile from "@/assets/service-domicile.png";
 
-function pick(name: string, fallback: string): string {
-  return files[`../assets/${name}`] ?? files[`../assets/${fallback}`] ?? "";
-}
-
-export function hasAsset(name: string) {
-  return `../assets/${name}` in files;
-}
-
+/** Site illustrations (flat vector style, PNG). */
 export const images = {
-  hero: pick("hero-famille.jpg", "hero-famille.jpg"),
+  hero,
   services: {
-    "traitement-domicile": pick("service-domicile.jpg", "service-domicile.jpg"),
-    "diagnostic-depistage": pick("service-depistage.jpg", "service-depistage.jpg"),
-    collectivite: pick("service-collectivite.jpg", "service-collectivite.jpg"),
+    "traitement-domicile": serviceDomicile,
+    "diagnostic-depistage": serviceDepistage,
+    collectivite: serviceCollectivite,
   } as Record<string, string>,
-  etapes: [
-    pick("etape-1-appel.jpg", "hero-famille.jpg"),
-    pick("etape-2-rdv.jpg", "service-domicile.jpg"),
-    pick("etape-3-traitement.jpg", "service-depistage.jpg"),
-    pick("etape-4-conseils.jpg", "blog-prevention.jpg"),
-  ],
-  illustration404: hasAsset("illustration-404.jpg") ? pick("illustration-404.jpg", "") : null,
+  etapes: [etape1, etape2, etape3, etape4],
+  illustration404,
 };
+
+/** Real pixel sizes of the illustrations, for <img width/height>. */
+export const imageSize = {
+  hero: { width: 1374, height: 1145 },
+  service: { width: 1448, height: 1086 },
+  etape: { width: 1122, height: 1402 },
+  blog: { width: 1586, height: 992 },
+  illustration404: { width: 1254, height: 1254 },
+} as const;
