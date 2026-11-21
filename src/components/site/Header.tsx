@@ -1,10 +1,12 @@
-import { Link } from "@tanstack/react-router";
-import { Menu, MessageCircle, Phone, X } from "lucide-react";
-import { useEffect, useState } from "react";
+import * as Dialog from "@radix-ui/react-dialog";
+import { Link, useRouterState } from "@tanstack/react-router";
+import { ArrowRight, Menu, MessageCircle, Phone, X } from "lucide-react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 
 import logo from "@/assets/logo.png.asset.json";
 import { Button } from "@/components/ui/button";
 import { site } from "@/lib/site";
+import { cn } from "@/lib/utils";
 
 const nav = [
   { to: "/", label: "Accueil" },
@@ -14,181 +16,229 @@ const nav = [
   { to: "/contact", label: "Contact" },
 ] as const;
 
+const useIsoLayoutEffect = typeof window === "undefined" ? useEffect : useLayoutEffect;
+
+function activeIndex(pathname: string) {
+  return nav.findIndex((item) =>
+    item.to === "/" ? pathname === "/" : pathname === item.to || pathname.startsWith(`${item.to}/`),
+  );
+}
+
 export function Header() {
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 16);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  useEffect(() => setOpen(false), [pathname]);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-border/70 bg-card/95 backdrop-blur">
-      <div className="section-x flex h-20 items-center justify-between gap-4">
-        <Link to="/" className="shrink-0" onClick={() => setOpen(false)}>
-          <img src={logo.url} alt="Poux Chrono 31" className="h-11 w-auto md:h-12" />
-        </Link>
+    <header className="sticky top-0 z-50 h-16 lg:h-20">
+      <div
+        className={cn(
+          "transition-[padding] duration-500 ease-out",
+          scrolled ? "px-3 pt-2 lg:pt-3" : "px-0 pt-0",
+        )}
+      >
+        <div
+          className={cn(
+            "mx-auto flex items-center justify-between gap-3 transition-[max-width,height,border-radius,background-color,box-shadow,padding] duration-500 ease-out",
+            scrolled
+              ? "glass h-12 max-w-6xl rounded-full pl-4 pr-1.5 shadow-card lg:h-14 lg:pl-6 lg:pr-2"
+              : "h-16 max-w-[76rem] border-b border-transparent bg-background/70 px-5 backdrop-blur-md md:px-8 lg:h-20",
+          )}
+        >
+          <Link to="/" className="shrink-0 rounded-lg" aria-label="Poux Chrono 31 — Accueil">
+            <img
+              src={logo.url}
+              alt="Poux Chrono 31"
+              className={cn(
+                "w-auto transition-[height] duration-500",
+                scrolled ? "h-8 lg:h-10" : "h-10 lg:h-12",
+              )}
+            />
+          </Link>
 
-        <nav className="hidden items-center gap-1 lg:flex">
-          {nav.map((item) => (
-            <Link
-              key={item.to}
-              to={item.to}
-              activeOptions={{ exact: item.to === "/" }}
-              activeProps={{ className: "bg-accent text-primary" }}
-              className="rounded-full px-4 py-2 text-sm font-semibold text-foreground/80 transition-colors hover:bg-accent hover:text-primary"
-            >
-              {item.label}
-            </Link>
-          ))}
-        </nav>
+          <DesktopNav pathname={pathname} />
 
-        <div className="flex items-center gap-2">
-          <a
-            href={site.phoneHref}
-            className="hidden items-center gap-2 rounded-full px-3 py-2 text-sm font-bold text-primary transition-colors hover:bg-accent md:inline-flex"
-          >
-            <Phone className="size-4" />
-            {site.phoneDisplay}
-          </a>
-          <Button asChild variant="cta" className="hidden sm:inline-flex">
-            <Link to="/contact" search={{}}>
-              Prendre rendez-vous
-            </Link>
-          </Button>
-          <button
-            type="button"
-            aria-label={open ? "Fermer le menu" : "Ouvrir le menu"}
-            onClick={() => setOpen((v) => !v)}
-            className="inline-flex size-11 items-center justify-center rounded-full text-primary transition-colors hover:bg-accent lg:hidden"
-          >
-            {open ? <X className="size-6" /> : <Menu className="size-6" />}
-          </button>
-        </div>
-      </div>
-
-      {open && (
-        <div className="border-t border-border bg-card lg:hidden">
-          <nav className="section-x flex flex-col py-3">
-            {nav.map((item) => (
-              <Link
-                key={item.to}
-                to={item.to}
-                onClick={() => setOpen(false)}
-                activeOptions={{ exact: item.to === "/" }}
-                activeProps={{ className: "text-primary" }}
-                className="rounded-xl px-2 py-3 text-base font-semibold text-foreground/85 hover:bg-accent"
-              >
-                {item.label}
-              </Link>
-            ))}
+          <div className="flex items-center gap-1.5">
             <a
               href={site.phoneHref}
-              className="mt-1 flex items-center gap-2 px-2 py-3 text-base font-bold text-primary"
+              className="hidden items-center gap-2 rounded-full px-3 py-2 text-sm font-bold text-navy transition-colors hover:text-primary xl:inline-flex"
             >
-              <Phone className="size-5" /> {site.phoneDisplay}
+              <Phone className="size-4 text-primary" />
+              {site.phoneDisplay}
             </a>
-          </nav>
+            <Button
+              asChild
+              variant="cta"
+              size={scrolled ? "sm" : "default"}
+              className="hidden sm:inline-flex"
+            >
+              <Link to="/contact" search={{}}>
+                Prendre rendez-vous
+                <ArrowRight data-arrow />
+              </Link>
+            </Button>
+            <MobileMenu open={open} onOpenChange={setOpen} pathname={pathname} />
+          </div>
         </div>
-      )}
+      </div>
     </header>
   );
 }
 
-export function ScrollingLouse() {
-  const [offset, setOffset] = useState(0);
-  const [isCrawling, setIsCrawling] = useState(false);
+function DesktopNav({ pathname }: { pathname: string }) {
+  const listRef = useRef<HTMLDivElement>(null);
+  const [indicator, setIndicator] = useState<{ left: number; width: number } | null>(null);
+  const current = activeIndex(pathname);
 
-  useEffect(() => {
-    let frame = 0;
-    let stopTimer = 0;
-
-    const updatePosition = () => {
-      setIsCrawling(true);
-      window.clearTimeout(stopTimer);
-      stopTimer = window.setTimeout(() => setIsCrawling(false), 180);
-      cancelAnimationFrame(frame);
-      frame = requestAnimationFrame(() => {
-        const phase = (window.scrollY % 360) / 360;
-        const climb = phase < 0.5 ? phase * 2 : (1 - phase) * 2;
-        setOffset(Math.round(climb * 150));
-      });
+  useIsoLayoutEffect(() => {
+    const measure = () => {
+      const list = listRef.current;
+      const el = list?.querySelectorAll<HTMLElement>("[data-nav-item]")[current];
+      if (!list || !el) return setIndicator(null);
+      setIndicator({ left: el.offsetLeft, width: el.offsetWidth });
     };
-
-    updatePosition();
-    window.addEventListener("scroll", updatePosition, { passive: true });
-    return () => {
-      cancelAnimationFrame(frame);
-      window.clearTimeout(stopTimer);
-      window.removeEventListener("scroll", updatePosition);
-    };
-  }, []);
+    measure();
+    window.addEventListener("resize", measure);
+    document.fonts?.ready.then(measure).catch(() => {});
+    return () => window.removeEventListener("resize", measure);
+  }, [current]);
 
   return (
-    <div
-      aria-hidden="true"
-      className={`pointer-events-none fixed right-0 top-[27%] z-30 h-[200px] w-16 text-primary motion-reduce:hidden ${isCrawling ? "is-crawling" : ""}`}
-    >
-      <svg viewBox="0 0 64 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <g transform="translate(11 0)">
-          <path
-            d="M32 4C27 29 37 48 32 69S27 110 33 132s-4 44-1 64"
-            stroke="currentColor"
-            strokeOpacity=".55"
-            strokeWidth="2"
-            strokeLinecap="round"
-          />
-          <path
-            d="M34 5C29 30 39 49 34 70s-5 41 1 62-4 43-1 62"
-            stroke="currentColor"
-            strokeOpacity=".2"
-            strokeWidth="1"
-            strokeLinecap="round"
-          />
-          <g transform={`translate(32 ${20 + offset})`}>
-            <g className="louse-legs-left" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-              <path d="M-5-5-12-9l-3 3M-7 1l-9-1-3 4M-6 8l-7 5 1 4" />
-            </g>
-            <g className="louse-legs-right" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-              <path d="M5-5 12-9l3 3M7 1 16 0l3 4M6 8l7 5-1 4" />
-            </g>
-            <g className="louse-body">
-              <ellipse cx="0" cy="5" rx="7" ry="11" fill="var(--color-destructive)" />
-              <circle cx="0" cy="-8" r="6" fill="var(--color-destructive)" />
-              <path d="M-4-11-7-16M4-11l3-5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-              <path d="M-6 1h12M-7 6h14M-6 11h12" stroke="var(--color-destructive-foreground)" strokeWidth="1.5" />
-              <circle cx="-2" cy="-9" r="1" fill="var(--color-destructive-foreground)" />
-              <circle cx="2" cy="-9" r="1" fill="var(--color-destructive-foreground)" />
-            </g>
-          </g>
-        </g>
-      </svg>
-    </div>
+    <nav aria-label="Navigation principale" className="hidden lg:block">
+      <div ref={listRef} className="relative flex items-center gap-0.5 rounded-full p-1">
+        <span
+          aria-hidden="true"
+          className={cn(
+            "absolute top-1 bottom-1 rounded-full bg-accent transition-[left,width,opacity] duration-500 ease-out",
+            indicator ? "opacity-100" : "opacity-0",
+          )}
+          style={indicator ? { left: indicator.left, width: indicator.width } : undefined}
+        />
+        {nav.map((item, i) => (
+          <Link
+            key={item.to}
+            to={item.to}
+            data-nav-item
+            className={cn(
+              "relative z-10 rounded-full px-4 py-2 text-sm font-bold transition-colors",
+              i === current ? "text-primary" : "text-navy/70 hover:text-navy",
+            )}
+          >
+            {item.label}
+          </Link>
+        ))}
+      </div>
+    </nav>
   );
 }
 
-export function MobileActionBar() {
+function MobileMenu({
+  open,
+  onOpenChange,
+  pathname,
+}: {
+  open: boolean;
+  onOpenChange: (v: boolean) => void;
+  pathname: string;
+}) {
+  const current = activeIndex(pathname);
   return (
-    <div className="fixed inset-x-0 bottom-0 z-50 grid grid-cols-2 gap-2 border-t border-border bg-card/95 p-3 backdrop-blur sm:hidden">
-      <Button asChild variant="outline" size="lg" className="w-full">
-        <a href={site.phoneHref}>
-          <Phone /> Appeler
-        </a>
-      </Button>
-      <Button asChild variant="cta" size="lg" className="w-full">
-        <Link to="/contact" search={{}}>
-          RDV en ligne
-        </Link>
-      </Button>
-    </div>
-  );
-}
+    <Dialog.Root open={open} onOpenChange={onOpenChange}>
+      <Dialog.Trigger asChild>
+        <button
+          type="button"
+          aria-label="Ouvrir le menu"
+          className="inline-flex size-11 items-center justify-center rounded-full text-navy transition-colors hover:bg-accent lg:hidden"
+        >
+          <Menu className="size-6" />
+        </button>
+      </Dialog.Trigger>
+      <Dialog.Portal>
+        <Dialog.Content
+          aria-describedby={undefined}
+          className="fixed inset-0 z-[70] flex flex-col overflow-y-auto bg-background data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:animate-in data-[state=open]:fade-in-0 lg:hidden"
+        >
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0 -z-10 overflow-hidden"
+          >
+            <div className="absolute -top-24 -right-24 size-80 rounded-full bg-mint/25 blur-3xl" />
+            <div className="absolute bottom-10 -left-24 size-80 rounded-full bg-primary/15 blur-3xl" />
+          </div>
+          <div className="flex h-16 items-center justify-between px-5">
+            <Dialog.Title className="sr-only">Menu</Dialog.Title>
+            <img src={logo.url} alt="Poux Chrono 31" className="h-10 w-auto" />
+            <Dialog.Close asChild>
+              <button
+                type="button"
+                aria-label="Fermer le menu"
+                className="inline-flex size-11 items-center justify-center rounded-full bg-white text-navy shadow-soft"
+              >
+                <X className="size-6" />
+              </button>
+            </Dialog.Close>
+          </div>
 
-export function FloatingContact() {
-  return (
-    <a
-      href={site.whatsappHref}
-      target="_blank"
-      rel="noreferrer"
-      aria-label="Nous écrire sur WhatsApp"
-      className="fixed bottom-24 right-4 z-40 inline-flex size-13 animate-in fade-in zoom-in items-center justify-center rounded-full bg-mint text-mint-foreground shadow-card transition-transform hover:scale-105 sm:bottom-6"
-    >
-      <MessageCircle className="size-6" />
-    </a>
+          <nav aria-label="Navigation mobile" className="flex flex-1 flex-col justify-center px-6 py-6">
+            {nav.map((item, i) => (
+              <Link
+                key={item.to}
+                to={item.to}
+                onClick={() => onOpenChange(false)}
+                className={cn(
+                  "group flex items-center justify-between border-b border-border/70 py-4 font-display text-[clamp(1.75rem,8vw,2.5rem)] font-semibold tracking-tight animate-in fade-in slide-in-from-bottom-4 fill-mode-both duration-500",
+                  i === current ? "text-primary" : "text-navy",
+                )}
+                style={{ animationDelay: `${80 + i * 60}ms` }}
+              >
+                <span className="flex items-baseline gap-3">
+                  <span className="font-sans text-xs font-bold text-mint-ink tabular-nums">
+                    0{i + 1}
+                  </span>
+                  {item.label}
+                </span>
+                <ArrowRight className="size-6 opacity-30 transition-[opacity,transform] group-hover:translate-x-1 group-hover:opacity-100" />
+              </Link>
+            ))}
+          </nav>
+
+          <div
+            className="grid gap-3 px-5 pb-[max(1.25rem,env(safe-area-inset-bottom))] animate-in fade-in slide-in-from-bottom-6 fill-mode-both duration-500"
+            style={{ animationDelay: "420ms" }}
+          >
+            <div className="grid grid-cols-2 gap-3">
+              <Button asChild variant="outline" size="lg">
+                <a href={site.phoneHref}>
+                  <Phone /> Appeler
+                </a>
+              </Button>
+              <Button asChild variant="outline" size="lg">
+                <a href={site.whatsappHref} target="_blank" rel="noreferrer">
+                  <MessageCircle className="text-mint-ink" /> WhatsApp
+                </a>
+              </Button>
+            </div>
+            <Button asChild variant="cta" size="lg">
+              <Link to="/contact" search={{}} onClick={() => onOpenChange(false)}>
+                Prendre rendez-vous
+                <ArrowRight data-arrow />
+              </Link>
+            </Button>
+            <p className="text-center text-sm text-muted-foreground">
+              {site.phoneDisplay} · {site.horaires}
+            </p>
+          </div>
+        </Dialog.Content>
+      </Dialog.Portal>
+    </Dialog.Root>
   );
 }

@@ -4,7 +4,7 @@ import { CheckCircle2, Clock, Users } from "lucide-react";
 import serviceDomicile from "@/assets/service-domicile.jpg";
 import serviceCollectivite from "@/assets/service-collectivite.jpg";
 import serviceDepistage from "@/assets/service-depistage.jpg";
-import { Breadcrumb, CtaBanner, PageHeader } from "@/components/site/Bits";
+import { CtaBanner, PageHeader } from "@/components/site/Bits";
 import { Button } from "@/components/ui/button";
 import { services, tarifs } from "@/lib/site";
 import { travelZones } from "@/lib/travel-fees";
@@ -37,8 +37,9 @@ export const Route = createFileRoute("/services")({
 function ServicesPage() {
   return (
     <>
-      <Breadcrumb items={[{ label: "Nos services" }]} />
       <PageHeader
+        breadcrumb={[{ label: "Nos services" }]}
+        highlight="adaptée"
         eyebrow="Nos services"
         titre="Une solution adaptée à chaque situation"
         intro="Un simple doute, toute une famille à traiter ou une école à accompagner : on vient à vous, avec des produits doux et une méthode éprouvée."

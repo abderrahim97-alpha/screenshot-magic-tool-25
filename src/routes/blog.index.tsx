@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Clock } from "lucide-react";
 import { useState } from "react";
 
-import { Breadcrumb, CtaBanner, PageHeader } from "@/components/site/Bits";
+import { CtaBanner, PageHeader } from "@/components/site/Bits";
 import { articles, categories } from "@/lib/blog";
 import { cn } from "@/lib/utils";
 
@@ -31,8 +31,9 @@ function BlogPage() {
 
   return (
     <>
-      <Breadcrumb items={[{ label: "Blog" }]} />
       <PageHeader
+        breadcrumb={[{ label: "Blog" }]}
+        highlight="sereins"
         eyebrow="Conseils"
         titre="Le blog des parents sereins"
         intro="Des réponses claires, sans jugement, pour comprendre et agir calmement."

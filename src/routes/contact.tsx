@@ -11,7 +11,7 @@ import {
 } from "lucide-react";
 import { useState, type FormEvent } from "react";
 
-import { Breadcrumb, PageHeader } from "@/components/site/Bits";
+import { PageHeader } from "@/components/site/Bits";
 import { Button } from "@/components/ui/button";
 import { fieldClass, Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -68,8 +68,9 @@ function ContactPage() {
 
   return (
     <>
-      <Breadcrumb items={[{ label: "Contact" }]} />
       <PageHeader
+        breadcrumb={[{ label: "Contact" }]}
+        highlight="dans la journée"
         eyebrow="Contact"
         titre="On vous rappelle dans la journée"
         intro="Laissez-nous quelques infos, ou appelez directement : on trouve ensemble le créneau qui vous arrange."

@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { CalendarClock, CheckCircle2, Home, Phone, Search, ShieldCheck } from "lucide-react";
 
-import { Breadcrumb, CtaBanner, PageHeader } from "@/components/site/Bits";
+import { CtaBanner, PageHeader } from "@/components/site/Bits";
 
 const etapes = [
   {
@@ -59,8 +59,9 @@ export const Route = createFileRoute("/comment-ca-marche")({
 function HowPage() {
   return (
     <>
-      <Breadcrumb items={[{ label: "Comment ça marche" }]} />
       <PageHeader
+        breadcrumb={[{ label: "Comment ça marche" }]}
+        highlight="sans stress"
         eyebrow="Notre méthode"
         titre="Simple, rapide et sans stress"
         intro="Vous n'avez rien à préparer. On s'occupe de tout, du premier appel jusqu'à la tranquillité retrouvée."
