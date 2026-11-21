@@ -1,4 +1,5 @@
 import { Link } from "@tanstack/react-router";
+import { useEffect, useRef, useState } from "react";
 import {
   ArrowUp,
   ArrowUpRight,
@@ -187,29 +188,55 @@ export function Footer() {
         </div>
       </div>
 
-      {/* ---------- Wordmark — SVG so it always fits the exact width */}
-      <div aria-hidden="true" className="pointer-events-none section-x select-none">
-        <svg viewBox="0 0 1000 150" className="block h-auto w-full" preserveAspectRatio="xMidYMax meet">
-          <defs>
-            <linearGradient id="footer-wordmark" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0" stopColor="#ffffff" stopOpacity="0.14" />
-              <stop offset="1" stopColor="#ffffff" stopOpacity="0.02" />
-            </linearGradient>
-          </defs>
-          <text
-            x="500"
-            y="138"
-            textAnchor="middle"
-            textLength="990"
-            lengthAdjust="spacingAndGlyphs"
-            fill="url(#footer-wordmark)"
-            className="font-display"
-            style={{ fontSize: 170, fontWeight: 800, letterSpacing: "-0.04em" }}
-          >
-            Poux Chrono 31
-          </text>
-        </svg>
+      {/* ---------- Wordmark — measured SVG, always fits the container width */}
+      <div aria-hidden="true" className="section-x pointer-events-none pt-2 select-none">
+        <Wordmark />
       </div>
     </footer>
+  );
+}
+
+/** Big faded brand name. The SVG viewBox is set to the text's real bounding box
+ *  (measured after fonts load), so it scales to fit the width on every screen. */
+function Wordmark() {
+  const textRef = useRef<SVGTextElement>(null);
+  const [box, setBox] = useState("0 0 1000 160");
+
+  useEffect(() => {
+    const fit = () => {
+      const t = textRef.current;
+      if (!t) return;
+      try {
+        const b = t.getBBox();
+        if (b.width > 0) setBox(`${b.x} ${b.y} ${b.width} ${b.height}`);
+      } catch {
+        /* not rendered yet */
+      }
+    };
+    fit();
+    document.fonts?.ready.then(fit).catch(() => {});
+    window.addEventListener("resize", fit);
+    return () => window.removeEventListener("resize", fit);
+  }, []);
+
+  return (
+    <svg viewBox={box} className="block h-auto w-full" preserveAspectRatio="xMidYMax meet">
+      <defs>
+        <linearGradient id="footer-wordmark" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor="#ffffff" stopOpacity="0.14" />
+          <stop offset="1" stopColor="#ffffff" stopOpacity="0.02" />
+        </linearGradient>
+      </defs>
+      <text
+        ref={textRef}
+        x="0"
+        y="140"
+        fill="url(#footer-wordmark)"
+        className="font-display"
+        style={{ fontSize: 160, fontWeight: 800, letterSpacing: "-0.03em" }}
+      >
+        Poux Chrono 31
+      </text>
+    </svg>
   );
 }

@@ -250,9 +250,9 @@ function Hero() {
         <div className="absolute inset-0 [background-image:radial-gradient(rgb(23_32_58/0.10)_1px,transparent_1px)] [background-size:22px_22px] [mask-image:radial-gradient(ellipse_70%_60%_at_50%_40%,black,transparent)]" />
       </div>
 
-      <div className="section-x grid items-center gap-7 md:grid-cols-[1.05fr_1fr] md:gap-10 lg:gap-16">
+      <div className="section-x grid grid-cols-[minmax(0,1fr)] items-center gap-7 md:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)] md:gap-10 lg:gap-16">
         {/* ---------- Visual */}
-        <div className="relative md:order-2">
+        <div className="relative min-w-0 md:order-2">
           <div className="relative mx-auto w-full max-w-xl">
             <div style={depth(8)} className="transition-transform duration-700 ease-out">
               <div className="rounded-[2.5rem] bg-gradient-to-br from-mint/50 via-white to-primary/30 p-1.5 shadow-card md:p-2">
@@ -260,8 +260,8 @@ function Hero() {
                   <img
                     src={images.hero}
                     alt="Un parent qui peigne doucement les cheveux de son enfant à la maison"
-                    width={1374}
-                    height={1145}
+                    width={1200}
+                    height={1008}
                     fetchPriority="high"
                     className="h-full w-full object-cover object-[50%_30%] md:object-center"
                   />
@@ -321,7 +321,7 @@ function Hero() {
         </div>
 
         {/* ---------- Copy */}
-        <div className="flex flex-col md:order-1">
+        <div className="flex min-w-0 flex-col md:order-1">
           <Reveal load className="order-1">
             <Pill live tone="mint">
               Disponible aujourd'hui
@@ -624,8 +624,6 @@ function Etapes() {
                   src={src}
                   alt=""
                   loading="lazy"
-                  width={1122}
-                  height={1402}
                   className={cn(
                     "absolute inset-0 h-full w-full object-cover transition-[opacity,transform] duration-700 ease-out",
                     i === active ? "scale-100 opacity-100" : "scale-[1.04] opacity-0",
@@ -743,8 +741,8 @@ function Services() {
                 src={s.img}
                 alt={s.titre}
                 loading="lazy"
-                width={1448}
-                height={1086}
+                width={928}
+                height={720}
                 className={cn(
                   "absolute inset-0 -z-20 h-full w-full object-cover transition-transform duration-[1200ms] ease-out",
                   open ? "scale-105" : "scale-100",
@@ -801,7 +799,7 @@ function Services() {
             hash={s.slug}
             className="relative isolate flex aspect-[3/4] w-[82%] shrink-0 snap-start flex-col justify-end overflow-hidden rounded-[2rem] bg-gradient-to-br from-mint-soft to-accent shadow-card min-[480px]:w-[60%]"
           >
-            <img src={s.img} alt={s.titre} loading="lazy" width={1448} height={1086} className="absolute inset-0 -z-20 h-full w-full object-cover" />
+            <img src={s.img} alt={s.titre} loading="lazy" width={928} height={720} className="absolute inset-0 -z-20 h-full w-full object-cover" />
             <div aria-hidden="true" className="absolute inset-0 -z-10 bg-gradient-to-t from-navy via-navy/55 to-transparent to-75%" />
             <span className="glass absolute top-4 left-4 inline-flex items-center rounded-full px-3 py-1.5 text-sm font-bold text-navy shadow-soft">
               {s.prix}
@@ -957,9 +955,9 @@ function Tarifs() {
   const total = row ? row.montant + (people - 1) * Math.max(row.montant - discount, 0) : 0;
 
   return (
-    <Section id="tarifs" tone="navy">
-      <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
-        <div className="lg:sticky lg:top-28 lg:self-start">
+    <Section id="tarifs" tone="navy" className="overflow-hidden">
+      <div className="grid grid-cols-[minmax(0,1fr)] gap-10 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:gap-16">
+        <div className="min-w-0 lg:sticky lg:top-28 lg:self-start">
           <SectionHeading
             align="left"
             dark
@@ -985,7 +983,7 @@ function Tarifs() {
         </div>
 
         {row && (
-          <Reveal delay={100}>
+          <Reveal delay={100} className="min-w-0">
             <div className="relative isolate overflow-hidden rounded-[2rem] bg-white/[0.05] p-5 ring-1 ring-white/10 backdrop-blur md:p-8">
               <div aria-hidden="true" className="absolute -top-24 -right-24 -z-10 size-72 rounded-full bg-primary/40 blur-3xl" />
 
@@ -1165,7 +1163,7 @@ function Temoignages() {
 function Faq() {
   return (
     <Section id="faq">
-      <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
+      <div className="grid grid-cols-[minmax(0,1fr)] gap-10 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:gap-16">
         <div className="lg:sticky lg:top-28 lg:self-start">
           <SectionHeading align="left" title={<>Vos questions, nos <Highlight>réponses</Highlight></>} />
           <Reveal delay={100} className="mt-8">

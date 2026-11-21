@@ -85,13 +85,17 @@ export function Header() {
       </div>
 
       <header className="sticky top-0 z-50 h-16 lg:h-20">
-        <div className={cn("transition-[padding] duration-500 ease-out", scrolled ? "px-3 pt-2 lg:pt-3" : "px-0 pt-0")}>
+        <div className={cn("transition-[padding] duration-500 ease-out", scrolled && "lg:px-3 lg:pt-3")}>
           <div
             className={cn(
               "relative mx-auto flex items-center justify-between gap-3 transition-[max-width,height,border-radius,background-color,box-shadow,padding] duration-500 ease-out",
+              // Mobile/tablet: fixed size, no shrink — just a soft border once scrolled.
+              "h-16 max-w-[76rem] border-b bg-background/85 px-5 backdrop-blur-md md:px-8",
+              scrolled ? "border-border/60 shadow-soft lg:shadow-none" : "border-transparent",
+              // Desktop: becomes a floating pill on scroll.
               scrolled
-                ? "h-12 max-w-6xl rounded-full border border-white/70 bg-white/85 pr-1.5 pl-4 shadow-card backdrop-blur-xl backdrop-saturate-150 lg:h-14 lg:pr-2 lg:pl-6"
-                : "h-16 max-w-[76rem] border-b border-transparent bg-background/70 px-5 backdrop-blur-md md:px-8 lg:h-20",
+                ? "lg:h-14 lg:max-w-6xl lg:rounded-full lg:border lg:border-white/70 lg:bg-white/85 lg:pr-2 lg:pl-6 lg:shadow-card lg:backdrop-blur-xl lg:backdrop-saturate-150"
+                : "lg:h-20",
             )}
           >
             <Link
@@ -104,7 +108,8 @@ export function Header() {
                 alt="Poux Chrono 31"
                 className={cn(
                   "w-auto transition-[height,transform] duration-500 group-hover:scale-[1.03]",
-                  scrolled ? "h-8 lg:h-10" : "h-10 lg:h-12",
+                  "h-12",
+                  scrolled ? "lg:h-10" : "lg:h-12",
                 )}
               />
             </Link>
@@ -140,7 +145,7 @@ export function Header() {
             <span
               aria-hidden="true"
               className={cn(
-                "pointer-events-none absolute inset-x-10 -bottom-px h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent transition-opacity duration-500",
+                "pointer-events-none absolute inset-x-10 -bottom-px hidden h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent transition-opacity duration-500 lg:block",
                 scrolled ? "opacity-100" : "opacity-0",
               )}
             />
